@@ -13,40 +13,37 @@
   <meta property="og:image" content="https://icon-site.pages.dev/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ICON — The web's content layer, rebuilt">
-  <meta name="twitter:description" content="AI at the edge. Immutable content. Trustless verification. Hyper-personalization that actually works.">
+  <meta name="twitter:description" content="AI at the edge. Immutable content. Trustless verification.">
   <meta name="twitter:image" content="https://icon-site.pages.dev/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --ink:       #0b0a08;
-      --ink-2:     #141310;
-      --ink-3:     #1e1c18;
-      --border:    #272420;
-      --border-hi: #373330;
-      --text:      #e6e3da;
-      --text-mid:  #968e80;
-      --text-low:  #554e44;
-      --lime:      #beff3a;
-      --lime-2:    #9dd430;
-      --lime-faint:rgba(190,255,58,.07);
+      --bg:      #000000;
+      --surface: #080808;
+      --border:  #181818;
+      --bhi:     #252525;
+      --text:    #ffffff;
+      --tmid:    #606060;
+      --tlow:    #282828;
+      --fire:    #FF4500;
+      --fire-hi: #FF6020;
 
-      --serif: 'Fraunces', Georgia, serif;
-      --sans:  'Syne', system-ui, sans-serif;
-      --mono:  'JetBrains Mono', monospace;
+      --display: 'Bebas Neue', 'Arial Narrow', sans-serif;
+      --sans:    'DM Sans', system-ui, sans-serif;
+      --mono:    'IBM Plex Mono', 'Fira Code', monospace;
 
-      --g: clamp(1.5rem, 5vw, 5rem);   /* gutter */
-      --W: 1200px;                       /* max width */
+      --g: clamp(1.5rem, 5vw, 5rem);
+      --W: 1200px;
     }
 
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
-      background: var(--ink);
+      background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.65;
@@ -54,161 +51,117 @@
       overflow-x: hidden;
     }
 
-    /* ─── grain ─────────────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      pointer-events: none;
-      opacity: .028;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px;
+    /* ── TYPOGRAPHY ──────────────────────── */
+    h1, h2 {
+      font-family: var(--display);
+      text-transform: uppercase;
+      line-height: .93;
+      letter-spacing: .01em;
     }
+    h1 { font-size: clamp(4rem, 13.5vw, 13rem); }
+    h2 { font-size: clamp(2.8rem, 9vw, 9rem); }
+    h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: var(--text); }
+    p  { color: var(--tmid); font-size: 1rem; line-height: 1.72; }
 
-    /* ─── utils ─────────────────────────────────── */
+    /* ── UTILS ───────────────────────────── */
     .wrap { max-width: var(--W); margin: 0 auto; padding: 0 var(--g); }
 
-    .eyebrow {
+    .kicker {
+      display: block;
       font-family: var(--mono);
-      font-size: .7rem;
-      letter-spacing: .14em;
+      font-size: .66rem;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--text-low);
-    }
-
-    .section-kicker {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--lime);
+      color: var(--fire);
       margin-bottom: 1.5rem;
     }
 
-    h1 {
-      font-family: var(--serif);
-      font-optical-sizing: auto;
-      font-size: clamp(3.2rem, 8.5vw, 8rem);
-      font-weight: 400;
-      line-height: .96;
-      letter-spacing: -.025em;
-    }
-
-    h2 {
-      font-family: var(--serif);
-      font-optical-sizing: auto;
-      font-size: clamp(2rem, 4.5vw, 4.5rem);
-      font-weight: 400;
-      line-height: 1.0;
-      letter-spacing: -.02em;
-    }
-
-    p { color: var(--text-mid); font-size: 1rem; line-height: 1.72; }
-
-    /* reveal on scroll */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
     .reveal.in { opacity: 1; transform: none; }
-    .reveal-d1 { transition-delay: .1s; }
-    .reveal-d2 { transition-delay: .2s; }
-    .reveal-d3 { transition-delay: .3s; }
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
 
-    /* ─── NAV ────────────────────────────────────── */
+    /* ── NAV ─────────────────────────────── */
     nav {
-      position: fixed; top:0; left:0; right:0; z-index:800;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 800;
       padding: 1.1rem var(--g);
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid var(--border);
-      background: rgba(11,10,8,.88);
-      backdrop-filter: blur(18px) saturate(160%);
+      background: rgba(0,0,0,.92);
+      backdrop-filter: blur(16px);
     }
-
     .nav-logo {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.45rem;
-      font-weight: 600;
-      letter-spacing: -.02em;
-      color: var(--lime);
+      font-family: var(--display);
+      font-size: 1.9rem;
+      letter-spacing: .06em;
+      color: var(--fire);
       text-decoration: none;
+      line-height: 1;
     }
-
     .nav-r { display: flex; align-items: center; gap: 2.5rem; }
-
     .nav-live {
-      display: flex; align-items: center; gap: .55rem;
+      display: flex; align-items: center; gap: .5rem;
       font-family: var(--mono);
-      font-size: .68rem;
+      font-size: .65rem;
       letter-spacing: .08em;
-      color: var(--text-low);
+      text-transform: uppercase;
+      color: var(--tmid);
     }
-
     .live-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--lime);
-      animation: liveblink 2.8s ease-in-out infinite;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--fire);
+      animation: blink 2.5s ease-in-out infinite;
     }
-
-    @keyframes liveblink { 0%,100%{opacity:1} 50%{opacity:.25} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
 
     .nav-btn {
       font-family: var(--sans);
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .06em;
+      font-weight: 600;
+      font-size: .8rem;
+      letter-spacing: .05em;
       text-transform: uppercase;
-      color: var(--ink);
-      background: var(--lime);
-      padding: .52rem 1.2rem;
+      color: #000;
+      background: #fff;
+      padding: .52rem 1.3rem;
       text-decoration: none;
-      transition: opacity .15s;
+      transition: background .15s, color .15s;
     }
-    .nav-btn:hover { opacity: .84; }
+    .nav-btn:hover { background: var(--fire); color: #000; }
 
-    /* ─── HERO ───────────────────────────────────── */
+    /* ── HERO ────────────────────────────── */
     .hero {
       min-height: 100svh;
-      padding: 9rem var(--g) 5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      position: relative;
-      overflow: hidden;
+      padding: 9rem var(--g) 4rem;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative; overflow: hidden;
       border-bottom: 1px solid var(--border);
     }
 
-    /* dot-grid background */
+    /* scanline grid */
     .hero::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(ellipse 90% 90% at 75% 40%, black 0%, transparent 70%);
-      opacity: .6;
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--bhi) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bhi) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 80% 40%, black 0%, transparent 70%);
+      opacity: .35;
       pointer-events: none;
     }
 
-    /* giant outline wordmark */
+    /* ghost ICON outline */
     .hero-mark {
       position: absolute;
-      bottom: -.12em;
-      right: -.04em;
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: clamp(16rem, 34vw, 36rem);
-      font-weight: 700;
+      bottom: -.1em; right: -.02em;
+      font-family: var(--display);
+      font-size: clamp(16rem, 36vw, 40rem);
+      letter-spacing: .01em;
       line-height: 1;
       color: transparent;
-      -webkit-text-stroke: 1px var(--border-hi);
-      pointer-events: none;
-      user-select: none;
+      -webkit-text-stroke: 1px rgba(255,69,0,.22);
+      pointer-events: none; user-select: none;
     }
 
     .hero-body { position: relative; z-index: 1; max-width: var(--W); width: 100%; }
@@ -220,520 +173,360 @@
     .hero-eyebrow::before {
       content: '';
       display: inline-block;
-      width: 2rem; height: 1px;
-      background: var(--text-low);
+      width: 1.5rem; height: 2px;
+      background: var(--fire);
+    }
+    .hero-eyebrow span {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--tmid);
     }
 
-    .hero h1 { margin-bottom: 3.5rem; }
-    .hero h1 em { font-style: italic; color: var(--lime); }
+    .hero h1 { margin-bottom: 3rem; }
+    .hero h1 em { font-style: normal; color: var(--fire); }
 
     .hero-split {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: end;
+      gap: 4rem; align-items: end;
       border-top: 1px solid var(--border);
       padding-top: 2rem;
     }
-
     .hero-sub { font-size: 1.1rem; max-width: 420px; }
+    .hero-r { display: flex; flex-direction: column; align-items: flex-end; gap: 1.5rem; }
 
-    .hero-right {
-      display: flex; flex-direction: column;
-      align-items: flex-end; gap: 1.5rem;
-    }
-
-    .hero-cta {
+    .cta-primary {
       font-family: var(--sans);
-      font-weight: 700;
+      font-weight: 600;
       font-size: .85rem;
-      letter-spacing: .06em;
+      letter-spacing: .05em;
       text-transform: uppercase;
+      color: #000;
+      background: var(--fire);
       padding: 1rem 2.8rem;
-      background: var(--lime);
-      color: var(--ink);
       text-decoration: none;
-      border: none;
-      cursor: pointer;
+      border: 2px solid var(--fire);
       display: inline-block;
-      transition: opacity .15s, transform .15s;
+      transition: background .15s, color .15s;
     }
-    .hero-cta:hover { opacity: .86; transform: translateY(-2px); }
+    .cta-primary:hover { background: transparent; color: var(--fire); }
 
-    .hero-tags {
-      display: flex; flex-wrap: wrap;
-      justify-content: flex-end; gap: .35rem;
-    }
-
+    .hero-tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; }
     .tag {
       font-family: var(--mono);
-      font-size: .64rem;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--text-low);
-      border: 1px solid var(--border);
-      padding: .22rem .65rem;
+      font-size: .6rem; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--tmid); border: 1px solid var(--border); padding: .2rem .6rem;
     }
 
-    /* ─── TICKER ─────────────────────────────────── */
+    /* ── TICKER ──────────────────────────── */
     .ticker {
-      overflow: hidden;
-      padding: .85rem 0;
+      overflow: hidden; padding: .85rem 0;
       border-bottom: 1px solid var(--border);
-      background: var(--ink-2);
+      background: var(--surface);
     }
-
     .ticker-track {
-      display: flex;
-      width: max-content;
-      animation: ticker 30s linear infinite;
+      display: flex; width: max-content;
+      animation: tick 30s linear infinite;
     }
-
     .ticker-track:hover { animation-play-state: paused; }
-
-    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
+    @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
     .ti {
       font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      color: var(--text-low);
-      padding: 0 2rem;
-      white-space: nowrap;
+      font-size: .68rem; letter-spacing: .13em; text-transform: uppercase;
+      color: var(--tmid); padding: 0 2rem; white-space: nowrap;
     }
-    .ti.sep { color: var(--lime); padding: 0; }
+    .ti.dot { color: var(--fire); padding: 0; }
 
-    /* ─── MANIFESTO ──────────────────────────────── */
+    /* ── MANIFESTO ───────────────────────── */
     .manifesto { border-bottom: 1px solid var(--border); }
-
-    .manifesto-header {
-      padding: 3.5rem var(--g) 0;
-      max-width: var(--W);
-      margin: 0 auto;
+    .manifesto-hd {
+      padding: 3rem var(--g) 0;
+      max-width: var(--W); margin: 0 auto;
     }
-
     .m-item {
       display: grid;
-      grid-template-columns: 7rem 1fr;
-      gap: 3rem;
-      align-items: start;
-      padding: 4rem var(--g);
+      grid-template-columns: 8rem 1fr;
+      gap: 3rem; align-items: start;
+      padding: 4.5rem var(--g);
       border-bottom: 1px solid var(--border);
-      max-width: var(--W);
-      margin: 0 auto;
+      max-width: var(--W); margin: 0 auto;
     }
     .m-item:last-child { border-bottom: none; }
-
     .m-num {
-      font-family: var(--serif);
-      font-style: italic;
-      font-weight: 300;
-      font-size: clamp(3.5rem, 6vw, 5.5rem);
-      line-height: 1;
-      color: var(--border-hi);
+      font-family: var(--display);
+      font-size: clamp(4rem, 9vw, 9rem);
+      line-height: .9; letter-spacing: .01em;
+      color: var(--fire);
     }
-
     .m-text {
-      font-family: var(--serif);
-      font-optical-sizing: auto;
-      font-size: clamp(1.5rem, 2.8vw, 2.4rem);
-      font-weight: 400;
-      line-height: 1.28;
-      letter-spacing: -.02em;
+      font-family: var(--sans);
+      font-size: clamp(1.35rem, 2.7vw, 2.2rem);
+      font-weight: 400; line-height: 1.3;
       color: var(--text);
     }
+    .m-text em   { font-style: italic; color: var(--tmid); }
+    .m-text mark { background: none; color: var(--fire); font-weight: 600; }
 
-    .m-text em  { font-style: italic; color: var(--text-mid); }
-    .m-text mark {
-      background: none;
-      color: var(--lime);
-      font-style: italic;
-    }
-
-    /* ─── ARCHITECTURE ───────────────────────────── */
+    /* ── ARCHITECTURE ────────────────────── */
     .arch {
-      background: var(--ink-2);
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 7rem var(--g);
     }
-
     .arch-inner {
-      max-width: var(--W);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7rem;
-      align-items: center;
+      max-width: var(--W); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 7rem; align-items: center;
     }
-
     .arch h2 { margin-bottom: 1.5rem; }
     .arch p   { font-size: 1.05rem; }
-
     .arch-diagram {
-      background: var(--ink);
+      background: #000;
       border: 1px solid var(--border);
+      border-left: 3px solid var(--fire);
       padding: 2.5rem;
       font-family: var(--mono);
-      font-size: .8rem;
-      line-height: 2.1;
+      font-size: .78rem; line-height: 2.2;
     }
+    .ad { color: var(--tmid); }
+    .ah { color: var(--fire); font-weight: 500; }
+    .am { color: #888; }
 
-    .ad { color: var(--text-low); }
-    .ah { color: var(--lime); }
-    .am { color: var(--text-mid); }
-
-    /* ─── PILLARS ────────────────────────────────── */
+    /* ── PILLARS ─────────────────────────── */
     .pillars { border-bottom: 1px solid var(--border); }
-
     .pillars-top {
-      padding: 5rem var(--g) 2.5rem;
+      padding: 5rem var(--g) 3rem;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      max-width: var(--W);
-      margin: 0 auto;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      max-width: var(--W); margin: 0 auto;
     }
-
     .pillars-count {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--text-low);
+      font-family: var(--mono); font-size: .7rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--tmid);
     }
-
     .pillar-row {
       display: grid;
-      grid-template-columns: 11rem 1fr 1.2fr;
-      gap: 3rem;
-      align-items: start;
+      grid-template-columns: 12rem 1fr 1.1fr;
+      gap: 3rem; align-items: start;
       padding: 3.5rem var(--g);
       border-bottom: 1px solid var(--border);
-      max-width: var(--W);
-      margin: 0 auto;
+      max-width: var(--W); margin: 0 auto;
+      position: relative;
       transition: background .2s;
     }
     .pillar-row:last-child { border-bottom: none; }
-    .pillar-row:hover { background: var(--ink-2); }
+    .pillar-row:hover { background: var(--surface); }
 
     .p-tag {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--lime);
-      padding-top: .4rem;
+      font-family: var(--mono); font-size: .66rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--fire); padding-top: .35rem;
     }
-
     .p-hl {
-      font-family: var(--serif);
-      font-optical-sizing: auto;
-      font-size: clamp(1.25rem, 2.2vw, 1.9rem);
-      font-weight: 400;
-      line-height: 1.15;
-      letter-spacing: -.02em;
-      color: var(--text);
+      font-family: var(--display);
+      font-size: clamp(1.4rem, 2.5vw, 2.3rem);
+      text-transform: uppercase; letter-spacing: .01em;
+      line-height: .95; color: var(--text);
     }
+    .p-desc { font-size: .92rem; line-height: 1.72; }
 
-    .p-desc { font-size: .95rem; line-height: 1.72; }
-
-    /* ─── HOW IT WORKS ───────────────────────────── */
+    /* ── HOW IT WORKS ────────────────────── */
     .how {
       padding: 7rem var(--g);
-      background: var(--ink-2);
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
     }
-
     .how-inner { max-width: var(--W); margin: 0 auto; }
     .how-hd { margin-bottom: 4rem; }
-
     .how-steps {
       display: grid;
       grid-template-columns: repeat(3,1fr);
       border: 1px solid var(--border);
     }
-
     .how-step {
       padding: 2.5rem;
       border-right: 1px solid var(--border);
     }
     .how-step:last-child { border-right: none; }
-
     .hs-n {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 4.5rem;
-      font-weight: 300;
-      line-height: 1;
-      color: var(--border-hi);
-      margin-bottom: 1.5rem;
-      display: block;
+      font-family: var(--display);
+      font-size: 5.5rem; line-height: .9; letter-spacing: .01em;
+      color: var(--fire); display: block; margin-bottom: 1.5rem;
     }
-
-    .how-step h3 {
-      font-family: var(--sans);
-      font-size: .95rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: .6rem;
-    }
-
-    .how-step p { font-size: .9rem; }
+    .how-step h3 { font-size: .95rem; font-weight: 700; margin-bottom: .6rem; }
+    .how-step p  { font-size: .9rem; }
 
     .terminal {
-      margin-top: 3rem;
+      margin-top: 3rem; background: #000;
       border: 1px solid var(--border);
-      background: #08080a;
+      border-left: 3px solid var(--fire);
     }
-
     .t-bar {
       display: flex; align-items: center; gap: .5rem;
-      padding: .7rem 1.25rem;
-      border-bottom: 1px solid var(--border);
+      padding: .7rem 1.25rem; border-bottom: 1px solid var(--border);
     }
-
-    .t-dot { width:9px; height:9px; border-radius:50%; background:var(--border-hi); }
-
+    .t-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+    .t-dot:first-child { background: var(--fire); }
     .t-label {
-      margin-left: .5rem;
-      font-family: var(--mono);
-      font-size: .65rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-low);
+      margin-left: .5rem; font-family: var(--mono);
+      font-size: .62rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--tmid);
     }
-
     .t-body {
       padding: 1.5rem 1.75rem;
-      font-family: var(--mono);
-      font-size: .8rem;
-      line-height: 1.9;
+      font-family: var(--mono); font-size: .78rem; line-height: 1.9;
     }
+    .td  { color: var(--tmid); }
+    .tc  { color: #aaa; }
+    .to  { color: var(--fire); font-weight: 500; }
+    .tk  { color: #7ab5dd; }
+    .tco { color: var(--tlow); }
 
-    .td { color: var(--text-low); }
-    .tc { color: var(--text-mid); }
-    .to { color: var(--lime); }
-    .tk { color: #7aafdd; }
-    .tco { color: #383632; }
-
-    /* ─── WHO ────────────────────────────────────── */
+    /* ── WHO ─────────────────────────────── */
     .who { border-bottom: 1px solid var(--border); }
-
     .who-top {
-      padding: 5rem var(--g) 2.5rem;
+      padding: 5rem var(--g) 3rem;
       border-bottom: 1px solid var(--border);
-      max-width: var(--W);
-      margin: 0 auto;
+      max-width: var(--W); margin: 0 auto;
     }
-
     .persona-row {
       display: grid;
       grid-template-columns: 13rem 1fr 1.1fr;
-      gap: 3rem;
-      align-items: start;
+      gap: 3rem; align-items: start;
       padding: 3rem var(--g);
       border-bottom: 1px solid var(--border);
-      max-width: var(--W);
-      margin: 0 auto;
+      max-width: var(--W); margin: 0 auto;
+      transition: background .2s;
     }
     .persona-row:last-child { border-bottom: none; }
-
+    .persona-row:hover { background: var(--surface); }
     .pr-role {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-low);
-      padding-top: .35rem;
+      font-family: var(--mono); font-size: .66rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--tmid); padding-top: .35rem;
     }
-
     .pr-stmt {
-      font-family: var(--serif);
-      font-optical-sizing: auto;
-      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-      font-weight: 400;
-      line-height: 1.25;
-      letter-spacing: -.015em;
-      color: var(--text);
+      font-family: var(--display);
+      font-size: clamp(1.3rem, 2.2vw, 2.2rem);
+      text-transform: uppercase; letter-spacing: .01em;
+      line-height: .95; color: var(--text);
     }
-
     .pr-desc { font-size: .92rem; }
 
-    /* ─── SIGNUP ─────────────────────────────────── */
+    /* ── SIGNUP — ORANGE SECTION ─────────── */
     .signup {
       padding: 9rem var(--g) 8rem;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      background: var(--fire);
     }
-
+    /* ghost text behind */
     .signup::before {
-      content: '';
+      content: 'EARLY';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 70% at 50% 110%, var(--lime-faint) 0%, transparent 100%);
-      pointer-events: none;
+      bottom: -.15em; right: -.02em;
+      font-family: var(--display);
+      font-size: clamp(12rem, 28vw, 30rem);
+      line-height: 1; letter-spacing: .01em;
+      color: rgba(0,0,0,.08);
+      pointer-events: none; user-select: none;
     }
-
-    /* giant bg text */
-    .signup-bg-text {
-      position: absolute;
-      bottom: -.1em; left: 50%;
-      transform: translateX(-50%);
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: clamp(8rem, 22vw, 22rem);
-      font-weight: 700;
-      line-height: 1;
-      color: transparent;
-      -webkit-text-stroke: 1px var(--border);
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .signup-inner {
-      position: relative; z-index: 1;
-      max-width: 680px; margin: 0 auto;
-    }
-
-    .signup h2 { margin-bottom: 1.25rem; }
-    .signup .sub { font-size: 1.1rem; max-width: 440px; margin: 0 auto 3rem; }
+    .signup-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .signup .kicker          { color: rgba(0,0,0,.45); }
+    .signup h2               { color: #000; }
+    .signup p                { color: rgba(0,0,0,.6); }
+    .signup .sub             { font-size: 1.05rem; max-width: 420px; margin: 0 auto 3rem; }
 
     .form-wrap { max-width: 500px; margin: 0 auto; }
-
-    .form-row {
+    .form-row  {
       display: flex;
-      gap: 0;
-      border: 1px solid var(--border-hi);
+      border: 2px solid rgba(0,0,0,.22);
     }
-
     .form-row input[type="email"] {
-      flex: 1;
-      padding: 1rem 1.25rem;
-      background: var(--ink-2);
-      border: none;
-      border-right: 1px solid var(--border-hi);
-      color: var(--text);
-      font-size: .95rem;
-      font-family: var(--sans);
+      flex: 1; padding: 1rem 1.25rem;
+      background: rgba(0,0,0,.08);
+      border: none; border-right: 2px solid rgba(0,0,0,.22);
+      color: #000; font-size: .95rem; font-family: var(--sans);
       outline: none;
-      transition: background .2s;
     }
-    .form-row input[type="email"]:focus { background: var(--ink-3); }
-    .form-row input[type="email"]::placeholder { color: var(--text-low); }
-
+    .form-row input[type="email"]:focus { background: rgba(0,0,0,.13); }
+    .form-row input[type="email"]::placeholder { color: rgba(0,0,0,.35); }
     .form-submit {
       padding: 1rem 2rem;
-      background: var(--lime);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-weight: 700;
-      font-size: .8rem;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity .15s;
+      background: #000; color: #fff;
+      font-family: var(--sans); font-weight: 600;
+      font-size: .8rem; letter-spacing: .06em; text-transform: uppercase;
+      border: none; cursor: pointer; white-space: nowrap;
+      transition: background .15s;
     }
-    .form-submit:hover { opacity: .85; }
-
+    .form-submit:hover { background: #1a1a1a; }
     .form-note {
-      margin-top: .9rem;
-      font-family: var(--mono);
-      font-size: .7rem;
-      color: var(--text-low);
-      letter-spacing: .04em;
+      margin-top: .9rem; font-family: var(--mono);
+      font-size: .68rem; letter-spacing: .04em;
+      color: rgba(0,0,0,.4);
     }
-
     .form-success {
-      display: none;
-      padding: 1.75rem;
-      border: 1px solid rgba(190,255,58,.28);
-      background: rgba(190,255,58,.04);
+      display: none; padding: 1.75rem;
+      background: rgba(0,0,0,.08);
+      border: 1px solid rgba(0,0,0,.2);
     }
     .form-success h3 {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.3rem;
-      color: var(--lime);
-      margin-bottom: .4rem;
+      font-family: var(--display); font-size: 2.5rem;
+      text-transform: uppercase; color: #000; margin-bottom: .4rem;
     }
-    .form-success p { font-size: .95rem; }
+    .form-success p { color: rgba(0,0,0,.55); font-size: .95rem; }
     .form-success.show { display: block; }
 
-    /* ─── FOOTER ─────────────────────────────────── */
+    /* ── FOOTER ──────────────────────────── */
     footer {
-      padding: 2.5rem var(--g);
+      padding: 2rem var(--g);
       border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      max-width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      background: var(--bg);
     }
-
     .f-logo {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.2rem;
-      color: var(--text-low);
-      text-decoration: none;
+      font-family: var(--display); font-size: 1.6rem;
+      letter-spacing: .06em; color: var(--tmid); text-decoration: none;
     }
-
-    .f-links {
-      display: flex; gap: 2rem; flex-wrap: wrap;
-    }
-
+    .f-links { display: flex; gap: 2rem; flex-wrap: wrap; }
     .f-links a {
-      font-family: var(--mono);
-      font-size: .7rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-low);
-      text-decoration: none;
-      transition: color .2s;
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--tmid); text-decoration: none; transition: color .2s;
     }
-    .f-links a:hover { color: var(--lime); }
+    .f-links a:hover { color: var(--fire); }
+    .f-by { font-family: var(--mono); font-size: .65rem; color: var(--tlow); letter-spacing: .04em; }
 
-    .f-by {
-      font-family: var(--mono);
-      font-size: .68rem;
-      color: var(--text-low);
-      letter-spacing: .04em;
-    }
-
-    /* ─── RESPONSIVE ─────────────────────────────── */
+    /* ── RESPONSIVE ──────────────────────── */
     @media (max-width: 960px) {
-      .hero-split   { grid-template-columns: 1fr; gap: 2rem; }
-      .hero-right   { align-items: flex-start; }
-      .hero-tags    { justify-content: flex-start; }
-      .arch-inner   { grid-template-columns: 1fr; gap: 4rem; }
-      .pillar-row   { grid-template-columns: 9rem 1fr; }
-      .pillar-row .p-desc { grid-column: 2; }
-      .persona-row  { grid-template-columns: 10rem 1fr; }
+      .hero-split    { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-r        { align-items: flex-start; }
+      .hero-tags     { justify-content: flex-start; }
+      .arch-inner    { grid-template-columns: 1fr; gap: 4rem; }
+      .pillar-row    { grid-template-columns: 9rem 1fr; }
+      .pillar-row .p-desc  { grid-column: 2; }
+      .persona-row   { grid-template-columns: 9rem 1fr; }
       .persona-row .pr-desc { grid-column: 2; }
     }
 
     @media (max-width: 680px) {
       :root { --g: 1.25rem; }
-      .hero-mark { display: none; }
-      .m-item  { grid-template-columns: 3.5rem 1fr; gap: 1.25rem; padding: 3rem var(--g); }
-      .how-steps { grid-template-columns: 1fr; }
-      .how-step  { border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-mark    { display: none; }
+      .m-item       { grid-template-columns: 4rem 1fr; gap: 1.5rem; padding: 3rem var(--g); }
+      .how-steps    { grid-template-columns: 1fr; }
+      .how-step     { border-right: none; border-bottom: 1px solid var(--border); }
       .how-step:last-child { border-bottom: none; }
       .pillar-row   { grid-template-columns: 1fr; }
       .pillar-row .p-desc { grid-column: 1; }
       .persona-row  { grid-template-columns: 1fr; gap: 1rem; }
       .persona-row .pr-desc { grid-column: 1; }
-      .form-row { flex-direction: column; }
-      .form-row input[type="email"] { border-right: none; border-bottom: 1px solid var(--border-hi); }
-      .form-submit { text-align: center; }
-      footer { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .form-row     { flex-direction: column; }
+      .form-row input[type="email"] { border-right: none; border-bottom: 2px solid rgba(0,0,0,.22); }
+      .form-submit  { text-align: center; }
+      footer        { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -755,12 +548,16 @@
 <section class="hero">
   <div class="hero-mark" aria-hidden="true">ICON</div>
   <div class="hero-body">
-    <div class="hero-eyebrow eyebrow">New infrastructure for the web</div>
+    <div class="hero-eyebrow">
+      <span>New infrastructure for the web</span>
+    </div>
+
     <h1>The web has <em>5 billion</em><br>users. Your content<br>has <em>1 version.</em></h1>
+
     <div class="hero-split">
       <p class="hero-sub">ICON is a new infrastructure layer. AI runs at the edge. Content is composed per visitor — cryptographically verified, IPFS-permanent, optimized for your goals. Not a plugin. Not a CMS feature.</p>
-      <div class="hero-right">
-        <a href="#signup" class="hero-cta">Get early access</a>
+      <div class="hero-r">
+        <a href="#signup" class="cta-primary">Get early access</a>
         <div class="hero-tags">
           <span class="tag">AI on the Edge</span>
           <span class="tag">Trustless</span>
@@ -777,27 +574,29 @@
 <!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span class="ti">AI on the Edge</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Trustless Verification</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Hyper-Personalization</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Immutable Content</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">IPFS-Native Storage</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Open Protocol</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Token-Efficient Inference</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">AI on the Edge</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Trustless Verification</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Hyper-Personalization</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Immutable Content</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">IPFS-Native Storage</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Open Protocol</span><span class="ti sep">&thinsp;·&thinsp;</span>
-    <span class="ti">Token-Efficient Inference</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">AI on the Edge</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Trustless Verification</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Hyper-Personalization</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Immutable Content</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">IPFS-Native Storage</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Open Protocol</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Token-Efficient Inference</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Edge Composition</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">AI on the Edge</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Trustless Verification</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Hyper-Personalization</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Immutable Content</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">IPFS-Native Storage</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Open Protocol</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Token-Efficient Inference</span><span class="ti dot">&thinsp;·&thinsp;</span>
+    <span class="ti">Edge Composition</span><span class="ti dot">&thinsp;·&thinsp;</span>
   </div>
 </div>
 
 <!-- MANIFESTO -->
 <section class="manifesto">
-  <div class="manifesto-header">
-    <span class="section-kicker">The problem</span>
+  <div class="manifesto-hd">
+    <span class="kicker">The problem</span>
   </div>
 
   <div class="m-item reveal">
@@ -805,17 +604,17 @@
     <p class="m-text">Every visitor who lands on your site is different. Your website isn't. <em>That's not a content problem. It's an infrastructure problem.</em></p>
   </div>
 
-  <div class="m-item reveal reveal-d1">
+  <div class="m-item reveal d1">
     <div class="m-num" aria-hidden="true">02</div>
     <p class="m-text">A/B testing is a coin flip. CMS personalization is widget rearrangement. Recommendation engines optimize for engagement, not truth. <mark>None of this is personalization.</mark> <em>It's theater.</em></p>
   </div>
 
-  <div class="m-item reveal reveal-d2">
+  <div class="m-item reveal d2">
     <div class="m-num" aria-hidden="true">03</div>
     <p class="m-text">AI can now compose coherent, relevant content in milliseconds — for fractions of a cent. The only thing missing was infrastructure to put it where it belongs: <em>at the moment of delivery, for every single request.</em></p>
   </div>
 
-  <div class="m-item reveal reveal-d3">
+  <div class="m-item reveal d3">
     <div class="m-num" aria-hidden="true">04</div>
     <p class="m-text">ICON is that infrastructure. <mark>Not a plugin. Not a CMS feature.</mark> <em>A new layer of the web.</em></p>
   </div>
@@ -825,22 +624,22 @@
 <section class="arch">
   <div class="arch-inner">
     <div class="reveal">
-      <span class="section-kicker">Architecture</span>
+      <span class="kicker">Architecture</span>
       <h2>What changes when AI lives at the edge</h2>
-      <p style="margin-top:1.5rem">The CDN moved static files closer to users. ICON moves <em>meaning</em> closer to users. Content is published once, stored permanently on IPFS. At every request, an edge agent reads context and composes the version of your content most likely to resonate — before the response leaves the server.</p>
+      <p style="margin-top:1.5rem">The CDN moved static files closer to users. ICON moves <em>meaning</em> closer to users. Content is published once, stored permanently on IPFS. At every request, an edge agent reads context and composes the right version — before the response leaves the server.</p>
     </div>
-    <div class="arch-diagram reveal reveal-d1">
+    <div class="arch-diagram reveal d1">
       <span class="ad">visitor ─────────────────── edge (20ms)</span><br>
-      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</span><br>
-      <span class="am">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reads context</span><br>
-      <span class="am">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetches CID → IPFS</span><br>
-      <span class="ah">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;composes → verifies</span><br>
-      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signs &amp; serves</span><br>
-      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</span><br>
+      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</span><br>
+      <span class="am">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reads context</span><br>
+      <span class="am">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetches CID → IPFS</span><br>
+      <span class="ah">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;composes → verifies</span><br>
+      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signs &amp; serves</span><br>
+      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</span><br>
       <span class="ah">personalized response</span><br>
       <br>
-      <span class="ad">────────────────────────────────────</span><br>
-      <span class="am">&lt;100ms &middot; every request &middot; no central server</span>
+      <span class="ad">─────────────────────────────────────</span><br>
+      <span class="am">&lt;100ms · every request · no central server</span>
     </div>
   </div>
 </section>
@@ -881,11 +680,11 @@
 <section class="how">
   <div class="how-inner">
     <div class="how-hd reveal">
-      <span class="section-kicker">How it works</span>
+      <span class="kicker">How it works</span>
       <h2>Three operations.<br>Zero infrastructure.</h2>
     </div>
 
-    <div class="how-steps reveal reveal-d1">
+    <div class="how-steps reveal d1">
       <div class="how-step">
         <span class="hs-n" aria-hidden="true">01</span>
         <h3>Write</h3>
@@ -903,7 +702,7 @@
       </div>
     </div>
 
-    <div class="terminal reveal reveal-d2">
+    <div class="terminal reveal d2">
       <div class="t-bar">
         <div class="t-dot"></div>
         <div class="t-dot"></div>
@@ -931,7 +730,7 @@
 <!-- WHO -->
 <section class="who">
   <div class="who-top reveal">
-    <span class="section-kicker">Who it's for</span>
+    <span class="kicker">Who it's for</span>
     <h2>For people who treat<br>their website like code</h2>
   </div>
 
@@ -954,12 +753,11 @@
   </div>
 </section>
 
-<!-- SIGNUP -->
+<!-- SIGNUP — ORANGE -->
 <section class="signup" id="signup">
-  <div class="signup-bg-text" aria-hidden="true">Access</div>
   <div class="signup-inner reveal">
-    <span class="section-kicker">Early access Q2 2026</span>
-    <h2>Join the waitlist</h2>
+    <span class="kicker">Early access Q2 2026</span>
+    <h2>Join the<br>waitlist</h2>
     <p class="sub">Building in public. Early access starts Q2&nbsp;2026 — for the builders who want to shape what the web becomes next.</p>
 
     <div class="form-wrap">
@@ -990,7 +788,6 @@
 </footer>
 
 <script>
-  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     a.addEventListener('click', function(e) {
       e.preventDefault();
@@ -999,16 +796,13 @@
     });
   });
 
-  // Scroll reveal
   var io = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
+  }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
 
-  // Form
   var form = document.getElementById('signup-form');
   var succ = document.getElementById('form-success');
   form.addEventListener('submit', function(e) {
