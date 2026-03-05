@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICON — Content that adapts to every visitor</title>
+  <meta name="description" content="ICON composes your content differently for every visitor, in real time. No templates. No guessing. Just results.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ICON — Content that adapts to every visitor">
+  <meta property="og:description" content="Write content once. ICON composes it differently for every visitor. Verifiable, decentralized, outcome-driven.">
+  <meta property="og:url" content="https://icon-site.pages.dev">
+  <meta property="og:image" content="https://icon-site.pages.dev/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ICON — Content that adapts to every visitor">
+  <meta name="twitter:description" content="Write content once. ICON composes it differently for every visitor. Verifiable, decentralized, outcome-driven.">
+  <meta name="twitter:image" content="https://icon-site.pages.dev/og-image.png">
+
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --bg-surface: #111113;
+      --bg-elevated: #1a1a1e;
+      --text: #e8e8ec;
+      --text-muted: #8a8a96;
+      --accent: #c4f042;
+      --accent-dim: #a0c434;
+      --border: #2a2a30;
+      --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --max-w: 720px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Layout --- */
+    section {
+      padding: 6rem 1.5rem;
+    }
+
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    /* --- Typography --- */
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .mono {
+      font-family: var(--mono);
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    /* --- Hero --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero h1 {
+      margin-bottom: 1.25rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--accent-dim);
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* --- Problem --- */
+    .problem {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .problem p {
+      font-size: 1.15rem;
+      max-width: 600px;
+    }
+
+    .problem p + p {
+      margin-top: 1rem;
+    }
+
+    /* --- Vision --- */
+    .vision p {
+      font-size: 1.15rem;
+      max-width: 600px;
+    }
+
+    .vision-demo {
+      margin-top: 3rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .vision-demo-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .vision-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .vision-line {
+      height: 12px;
+      border-radius: 3px;
+      background: var(--bg-elevated);
+      opacity: 0;
+      animation: lineIn 0.5s ease forwards;
+    }
+
+    .vision-line:nth-child(1) { width: 85%; animation-delay: 0.2s; }
+    .vision-line:nth-child(2) { width: 60%; animation-delay: 0.4s; }
+    .vision-line:nth-child(3) { width: 72%; animation-delay: 0.6s; }
+    .vision-line:nth-child(4) { width: 45%; animation-delay: 0.8s; }
+    .vision-line.accent-line { background: var(--accent); opacity: 0; height: 14px; }
+    .vision-line:nth-child(5) { width: 90%; animation-delay: 1.0s; }
+    .vision-line:nth-child(6) { width: 55%; animation-delay: 1.2s; }
+
+    @keyframes lineIn {
+      to { opacity: 1; }
+    }
+
+    .vision-caption {
+      margin-top: 1.25rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* --- How it works --- */
+    .how {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .steps {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 640px) {
+      .steps { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .step {
+      padding: 1.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .step h3 {
+      color: var(--text);
+    }
+
+    .step p {
+      font-size: 0.95rem;
+    }
+
+    /* --- Different --- */
+    .diff-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .diff-item {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-surface);
+    }
+
+    .diff-item h3 {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .diff-item p {
+      font-size: 0.95rem;
+    }
+
+    /* --- Who --- */
+    .who {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .personas {
+      display: grid;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .persona {
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid var(--accent);
+      background: var(--bg);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .persona strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .persona p {
+      font-size: 0.95rem;
+    }
+
+    /* --- Sign-up --- */
+    .signup {
+      text-align: center;
+    }
+
+    .signup h2 {
+      margin-bottom: 0.75rem;
+    }
+
+    .signup > .wrap > p {
+      margin-bottom: 2.5rem;
+    }
+
+    .form-wrap {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .form-row input[type="email"] {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: var(--sans);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-row input[type="email"]:focus {
+      border-color: var(--accent);
+    }
+
+    .form-row input[type="email"]::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-note {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .form-success {
+      display: none;
+      padding: 1.5rem;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      background: rgba(196, 240, 66, 0.05);
+    }
+
+    .form-success h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-success.show {
+      display: block;
+    }
+
+    /* --- Footer --- */
+    footer {
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.85rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-family: var(--mono);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* --- Utilities --- */
+    @media (max-width: 639px) {
+      section { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="tag">ICON</span>
+      <h1>Your website shows the same&nbsp;page to&nbsp;everyone. That's&nbsp;broken.</h1>
+      <p>ICON composes your content differently for every visitor — in real time, verifiable, and fully under your control.</p>
+      <a href="#signup" class="btn">Get early access</a>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="problem">
+    <div class="wrap">
+      <h2>The web is stuck in 1996</h2>
+      <p>You write a page. You publish it. Everyone sees the same thing — whether they're a first-time visitor, a returning customer, or a developer evaluating your product.</p>
+      <p>Your CMS doesn't know the difference. Your A/B test picks a random variant and hopes for the best. And the "personalization" tools? They shuffle widgets around on a page that was never designed to change.</p>
+      <p style="color: var(--text); font-weight: 500; margin-top: 1.5rem;">Content shouldn't be a static file. It should be a living response to who's reading it.</p>
+    </div>
+  </section>
+
+  <!-- Vision -->
+  <section class="vision">
+    <div class="wrap">
+      <h2>Imagine content that thinks</h2>
+      <p>What if every visitor saw the version of your content that's most likely to resonate with them — automatically, instantly, without you creating dozens of variants by hand?</p>
+      <p style="margin-top: 1rem;">Not a template swap. Not a popup. A fundamentally different composition of your ideas, shaped by context and optimized for outcomes.</p>
+
+      <div class="vision-demo">
+        <div class="vision-demo-label">Same content, different composition</div>
+        <div class="vision-lines">
+          <div class="vision-line"></div>
+          <div class="vision-line accent-line"></div>
+          <div class="vision-line"></div>
+          <div class="vision-line"></div>
+          <div class="vision-line accent-line"></div>
+          <div class="vision-line"></div>
+        </div>
+        <p class="vision-caption">↑ Every visitor sees a version composed for them</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how">
+    <div class="wrap">
+      <h2>Three steps. No complexity.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Write</h3>
+          <p>Create your content as you always do. Articles, landing pages, docs — ICON works with what you already have.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Publish</h3>
+          <p>Push your content to ICON. It's stored decentrally and versioned — no database, no CMS lock-in.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Compose</h3>
+          <p>ICON assembles the right version for each visitor in real time, optimizing for the outcomes you define.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What makes it different -->
+  <section class="different">
+    <div class="wrap">
+      <h2>Not another personalization tool</h2>
+      <div class="diff-grid">
+        <div class="diff-item">
+          <h3>Verifiable</h3>
+          <p>Every claim is hash-verified. Your visitors can prove what's real — not just trust your word for it.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Yours</h3>
+          <p>Content lives on IPFS. No vendor lock-in. No hosting dependency. You own your content, always.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Outcome-driven</h3>
+          <p>The AI optimizes for your goals — signups, engagement, comprehension — not vanity metrics.</p>
+        </div>
+        <div class="diff-item">
+          <h3>Open</h3>
+          <p>CLI-first, open protocol. You can inspect, extend, and self-host. No black boxes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who it's for -->
+  <section class="who">
+    <div class="wrap">
+      <h2>Built for people who ship</h2>
+      <div class="personas">
+        <div class="persona">
+          <strong>Technical founders</strong>
+          <p>You're building a product and writing about it. ICON makes your content work as hard as your code.</p>
+        </div>
+        <div class="persona">
+          <strong>Developer-marketers</strong>
+          <p>You know content drives growth but hate the CMS circus. ICON fits into your existing workflow.</p>
+        </div>
+        <div class="persona">
+          <strong>Indie makers</strong>
+          <p>Every visitor counts when you're building alone. ICON helps each one see why your thing matters to them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign-up -->
+  <section class="signup" id="signup">
+    <div class="wrap">
+      <h2>Get early access</h2>
+      <p>We're building in public. Early access starts Q2 2026.</p>
+
+      <div class="form-wrap">
+        <form id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-row">
+            <input type="email" name="email" placeholder="you@example.com" required>
+            <button type="submit" class="btn">Join waitlist</button>
+          </div>
+        </form>
+        <p class="form-note">No spam. Just updates when there's something to show.</p>
+
+        <div class="form-success" id="form-success">
+          <h3>You're on the list</h3>
+          <p>We'll reach out when early access is ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-links">
+        <a href="https://github.com/dwehrmann/icon-site">GitHub</a>
+        <a href="https://github.com/dwehrmann/icon-site#concept">Concept</a>
+      </div>
+      <p>Built by <a href="https://github.com/dwehrmann" style="color: var(--text-muted); text-decoration: none;">@dwehrmann</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Form handling
+    var form = document.getElementById('signup-form');
+    var success = document.getElementById('form-success');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var data = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          document.querySelector('.form-note').style.display = 'none';
+          success.classList.add('show');
+        }
+      }).catch(function() {
+        // Fallback: let the form submit normally
+        form.submit();
+      });
+    });
+  </script>
+
+</body>
+</html>
