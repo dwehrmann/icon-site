@@ -6,733 +6,1026 @@
   <title>ICON — The web's content layer, rebuilt</title>
   <meta name="description" content="ICON runs AI at the edge to compose your content for every visitor — cryptographically verified, IPFS-permanent, token-efficient. A new infrastructure layer for the web.">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="ICON — The web's content layer, rebuilt">
   <meta property="og:description" content="AI at the edge. Immutable content. Trustless verification. Hyper-personalization that actually works.">
   <meta property="og:url" content="https://icon-site.pages.dev">
   <meta property="og:image" content="https://icon-site.pages.dev/og-image.png">
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ICON — The web's content layer, rebuilt">
   <meta name="twitter:description" content="AI at the edge. Immutable content. Trustless verification. Hyper-personalization that actually works.">
   <meta name="twitter:image" content="https://icon-site.pages.dev/og-image.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #080809;
-      --bg-surface: #0e0e10;
-      --bg-elevated: #161619;
-      --text: #eaeaf0;
-      --text-muted: #7a7a88;
-      --text-dim: #4a4a56;
-      --accent: #c8f045;
-      --accent-dim: #a3c738;
-      --accent-glow: rgba(200, 240, 69, 0.12);
-      --red: #ff4444;
-      --border: #222228;
-      --border-bright: #333340;
-      --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
-      --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
-      --max-w: 740px;
+      --ink:       #0b0a08;
+      --ink-2:     #141310;
+      --ink-3:     #1e1c18;
+      --border:    #272420;
+      --border-hi: #373330;
+      --text:      #e6e3da;
+      --text-mid:  #968e80;
+      --text-low:  #554e44;
+      --lime:      #beff3a;
+      --lime-2:    #9dd430;
+      --lime-faint:rgba(190,255,58,.07);
+
+      --serif: 'Fraunces', Georgia, serif;
+      --sans:  'Syne', system-ui, sans-serif;
+      --mono:  'JetBrains Mono', monospace;
+
+      --g: clamp(1.5rem, 5vw, 5rem);   /* gutter */
+      --W: 1200px;                       /* max width */
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background: var(--ink);
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    section { padding: 6rem 1.5rem; }
-    .wrap { max-width: var(--max-w); margin: 0 auto; }
-
-    h1 {
-      font-size: clamp(2.4rem, 7vw, 4rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.04em;
+    /* ─── grain ─────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: .028;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
     }
-    h2 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.025em;
+
+    /* ─── utils ─────────────────────────────────── */
+    .wrap { max-width: var(--W); margin: 0 auto; padding: 0 var(--g); }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text-low);
+    }
+
+    .section-kicker {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--lime);
       margin-bottom: 1.5rem;
     }
-    h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
-    p { color: var(--text-muted); font-size: 1.05rem; }
 
-    /* ---- Nav ---- */
+    h1 {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-size: clamp(3.2rem, 8.5vw, 8rem);
+      font-weight: 400;
+      line-height: .96;
+      letter-spacing: -.025em;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-size: clamp(2rem, 4.5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -.02em;
+    }
+
+    p { color: var(--text-mid); font-size: 1rem; line-height: 1.72; }
+
+    /* reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+
+    /* ─── NAV ────────────────────────────────────── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.1rem 1.5rem;
+      position: fixed; top:0; left:0; right:0; z-index:800;
+      padding: 1.1rem var(--g);
+      display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid var(--border);
-      background: rgba(8,8,9,0.85);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: rgba(11,10,8,.88);
+      backdrop-filter: blur(18px) saturate(160%);
     }
+
     .nav-logo {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      color: var(--lime);
+      text-decoration: none;
+    }
+
+    .nav-r { display: flex; align-items: center; gap: 2.5rem; }
+
+    .nav-live {
+      display: flex; align-items: center; gap: .55rem;
       font-family: var(--mono);
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      text-decoration: none;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      color: var(--text-low);
     }
-    .nav-cta {
-      display: inline-block;
-      padding: 0.45rem 1.1rem;
-      background: transparent;
-      border: 1px solid var(--border-bright);
-      border-radius: 5px;
-      color: var(--text);
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .nav-cta:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ---- Buttons ---- */
-    .btn {
-      display: inline-block;
-      padding: 0.9rem 2.2rem;
-      background: var(--accent);
-      color: var(--bg);
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.15s, transform 0.15s;
+    .live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+      animation: liveblink 2.8s ease-in-out infinite;
     }
-    .btn:hover { background: var(--accent-dim); transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
 
-    /* ---- Hero ---- */
+    @keyframes liveblink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    .nav-btn {
+      font-family: var(--sans);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--lime);
+      padding: .52rem 1.2rem;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .nav-btn:hover { opacity: .84; }
+
+    /* ─── HERO ───────────────────────────────────── */
     .hero {
-      min-height: 100vh;
+      min-height: 100svh;
+      padding: 9rem var(--g) 5rem;
       display: flex;
-      align-items: center;
-      padding-top: 6rem;
-      padding-bottom: 4rem;
+      flex-direction: column;
+      justify-content: flex-end;
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid var(--border);
     }
+
+    /* dot-grid background */
     .hero::before {
       content: '';
       position: absolute;
-      top: -200px; left: -200px; right: -200px;
-      height: 600px;
-      background: radial-gradient(ellipse at 30% 50%, rgba(200, 240, 69, 0.05) 0%, transparent 70%);
+      inset: 0;
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 90% 90% at 75% 40%, black 0%, transparent 70%);
+      opacity: .6;
       pointer-events: none;
     }
+
+    /* giant outline wordmark */
+    .hero-mark {
+      position: absolute;
+      bottom: -.12em;
+      right: -.04em;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(16rem, 34vw, 36rem);
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border-hi);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-body { position: relative; z-index: 1; max-width: var(--W); width: 100%; }
+
     .hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 2rem;
-    }
-    .hero-eyebrow .pulse {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-    .hero-eyebrow span {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-
-    .hero h1 { margin-bottom: 1.5rem; }
-    .hero h1 em { font-style: normal; color: var(--accent); }
-
-    .hero-sub {
-      font-size: 1.2rem;
-      max-width: 560px;
+      display: flex; align-items: center; gap: 1rem;
       margin-bottom: 2.5rem;
-      line-height: 1.55;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 2rem; height: 1px;
+      background: var(--text-low);
     }
 
-    .hero-pillars {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 3rem;
-    }
-    .pill {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--border-bright);
-      border-radius: 100px;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
+    .hero h1 { margin-bottom: 3.5rem; }
+    .hero h1 em { font-style: italic; color: var(--lime); }
 
-    /* ---- Statement / Manifesto ---- */
-    .manifesto {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-surface);
-    }
-    .manifesto-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-    .m-line {
+    .hero-split {
       display: grid;
-      grid-template-columns: 2rem 1fr;
-      gap: 1.5rem;
-      align-items: start;
-    }
-    .m-num {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      padding-top: 0.25rem;
-    }
-    .m-text {
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.35;
-      letter-spacing: -0.02em;
-    }
-    .m-text em {
-      font-style: normal;
-      color: var(--text-muted);
-      font-weight: 400;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
     }
 
-    /* ---- Architecture ---- */
+    .hero-sub { font-size: 1.1rem; max-width: 420px; }
+
+    .hero-right {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 1.5rem;
+    }
+
+    .hero-cta {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 1rem 2.8rem;
+      background: var(--lime);
+      color: var(--ink);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      transition: opacity .15s, transform .15s;
+    }
+    .hero-cta:hover { opacity: .86; transform: translateY(-2px); }
+
+    .hero-tags {
+      display: flex; flex-wrap: wrap;
+      justify-content: flex-end; gap: .35rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: .64rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-low);
+      border: 1px solid var(--border);
+      padding: .22rem .65rem;
+    }
+
+    /* ─── TICKER ─────────────────────────────────── */
+    .ticker {
+      overflow: hidden;
+      padding: .85rem 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--ink-2);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 30s linear infinite;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    .ti {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--text-low);
+      padding: 0 2rem;
+      white-space: nowrap;
+    }
+    .ti.sep { color: var(--lime); padding: 0; }
+
+    /* ─── MANIFESTO ──────────────────────────────── */
+    .manifesto { border-bottom: 1px solid var(--border); }
+
+    .manifesto-header {
+      padding: 3.5rem var(--g) 0;
+      max-width: var(--W);
+      margin: 0 auto;
+    }
+
+    .m-item {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 3rem;
+      align-items: start;
+      padding: 4rem var(--g);
+      border-bottom: 1px solid var(--border);
+      max-width: var(--W);
+      margin: 0 auto;
+    }
+    .m-item:last-child { border-bottom: none; }
+
+    .m-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      line-height: 1;
+      color: var(--border-hi);
+    }
+
+    .m-text {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-size: clamp(1.5rem, 2.8vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.28;
+      letter-spacing: -.02em;
+      color: var(--text);
+    }
+
+    .m-text em  { font-style: italic; color: var(--text-mid); }
+    .m-text mark {
+      background: none;
+      color: var(--lime);
+      font-style: italic;
+    }
+
+    /* ─── ARCHITECTURE ───────────────────────────── */
     .arch {
-      position: relative;
+      background: var(--ink-2);
+      border-bottom: 1px solid var(--border);
+      padding: 7rem var(--g);
     }
-    .arch-intro {
-      max-width: 580px;
-      margin-bottom: 3.5rem;
+
+    .arch-inner {
+      max-width: var(--W);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7rem;
+      align-items: center;
     }
-    .arch-intro p { font-size: 1.1rem; }
+
+    .arch h2 { margin-bottom: 1.5rem; }
+    .arch p   { font-size: 1.05rem; }
 
     .arch-diagram {
-      background: var(--bg-surface);
+      background: var(--ink);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
+      padding: 2.5rem;
       font-family: var(--mono);
-      font-size: 0.82rem;
-      line-height: 2;
-      overflow-x: auto;
+      font-size: .8rem;
+      line-height: 2.1;
     }
-    .arch-diagram .dim { color: var(--text-dim); }
-    .arch-diagram .hi { color: var(--accent); }
-    .arch-diagram .mid { color: var(--text-muted); }
-    .arch-diagram .arrow { color: var(--text-dim); }
 
-    /* ---- Pillars ---- */
-    .pillars-section { background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .ad { color: var(--text-low); }
+    .ah { color: var(--lime); }
+    .am { color: var(--text-mid); }
 
-    .pillars-grid {
-      display: grid;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    @media (min-width: 640px) {
-      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .pillar {
-      padding: 2rem;
+    /* ─── PILLARS ────────────────────────────────── */
+    .pillars { border-bottom: 1px solid var(--border); }
+
+    .pillars-top {
+      padding: 5rem var(--g) 2.5rem;
       border-bottom: 1px solid var(--border);
-      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      max-width: var(--W);
+      margin: 0 auto;
     }
-    .pillar:last-child { border-bottom: none; }
-    @media (min-width: 640px) {
-      .pillar:nth-child(odd) { border-right: 1px solid var(--border); }
-      .pillar:nth-last-child(-n+2) { border-bottom: none; }
-    }
-    .pillar-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-    .pillar h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.02em;
-    }
-    .pillar p { font-size: 0.95rem; line-height: 1.6; }
 
-    /* ---- How it works ---- */
-    .how-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-top: 2.5rem;
-    }
-    .how-step {
-      display: grid;
-      grid-template-columns: 3.5rem 1fr;
-      gap: 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .how-step:last-child { border-bottom: none; }
-    .how-step-num {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 1.75rem 0;
-      border-right: 1px solid var(--border);
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-    .how-step-body { padding: 1.75rem 1.5rem; }
-    .how-step-body h3 {
+    .pillars-count {
+      font-family: var(--serif);
+      font-style: italic;
       font-size: 1rem;
+      color: var(--text-low);
+    }
+
+    .pillar-row {
+      display: grid;
+      grid-template-columns: 11rem 1fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+      padding: 3.5rem var(--g);
+      border-bottom: 1px solid var(--border);
+      max-width: var(--W);
+      margin: 0 auto;
+      transition: background .2s;
+    }
+    .pillar-row:last-child { border-bottom: none; }
+    .pillar-row:hover { background: var(--ink-2); }
+
+    .p-tag {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--lime);
+      padding-top: .4rem;
+    }
+
+    .p-hl {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--text);
+    }
+
+    .p-desc { font-size: .95rem; line-height: 1.72; }
+
+    /* ─── HOW IT WORKS ───────────────────────────── */
+    .how {
+      padding: 7rem var(--g);
+      background: var(--ink-2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .how-inner { max-width: var(--W); margin: 0 auto; }
+    .how-hd { margin-bottom: 4rem; }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      border: 1px solid var(--border);
+    }
+
+    .how-step {
+      padding: 2.5rem;
+      border-right: 1px solid var(--border);
+    }
+    .how-step:last-child { border-right: none; }
+
+    .hs-n {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 4.5rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--border-hi);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .how-step h3 {
+      font-family: var(--sans);
+      font-size: .95rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 0.4rem;
+      margin-bottom: .6rem;
     }
-    .how-step-body p { font-size: 0.95rem; }
 
-    /* ---- Terminal block ---- */
+    .how-step p { font-size: .9rem; }
+
     .terminal {
-      background: #0d0d10;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
       margin-top: 3rem;
+      border: 1px solid var(--border);
+      background: #08080a;
     }
-    .terminal-bar {
-      padding: 0.75rem 1rem;
+
+    .t-bar {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.25rem;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
-    .terminal-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--border-bright);
-    }
-    .terminal-title {
-      margin-left: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-    }
-    .terminal-body {
-      padding: 1.5rem;
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      line-height: 1.85;
-    }
-    .t-dim { color: var(--text-dim); }
-    .t-cmd { color: var(--text-muted); }
-    .t-out { color: var(--accent); }
-    .t-comment { color: #4a5568; }
-    .t-path { color: #7eb8f7; }
 
-    /* ---- Who ---- */
-    .who { background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .personas {
-      display: grid;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .persona {
-      padding: 1.5rem;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--bg);
-    }
-    .persona-role {
+    .t-dot { width:9px; height:9px; border-radius:50%; background:var(--border-hi); }
+
+    .t-label {
+      margin-left: .5rem;
       font-family: var(--mono);
-      font-size: 0.72rem;
+      font-size: .65rem;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
+      color: var(--text-low);
     }
-    .persona strong {
-      display: block;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.4rem;
-    }
-    .persona p { font-size: 0.95rem; }
 
-    /* ---- Sign-up ---- */
-    .signup { text-align: center; }
-    .signup-inner {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 3.5rem 2rem;
-      background: var(--bg-surface);
+    .t-body {
+      padding: 1.5rem 1.75rem;
+      font-family: var(--mono);
+      font-size: .8rem;
+      line-height: 1.9;
+    }
+
+    .td { color: var(--text-low); }
+    .tc { color: var(--text-mid); }
+    .to { color: var(--lime); }
+    .tk { color: #7aafdd; }
+    .tco { color: #383632; }
+
+    /* ─── WHO ────────────────────────────────────── */
+    .who { border-bottom: 1px solid var(--border); }
+
+    .who-top {
+      padding: 5rem var(--g) 2.5rem;
+      border-bottom: 1px solid var(--border);
+      max-width: var(--W);
+      margin: 0 auto;
+    }
+
+    .persona-row {
+      display: grid;
+      grid-template-columns: 13rem 1fr 1.1fr;
+      gap: 3rem;
+      align-items: start;
+      padding: 3rem var(--g);
+      border-bottom: 1px solid var(--border);
+      max-width: var(--W);
+      margin: 0 auto;
+    }
+    .persona-row:last-child { border-bottom: none; }
+
+    .pr-role {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-low);
+      padding-top: .35rem;
+    }
+
+    .pr-stmt {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      font-weight: 400;
+      line-height: 1.25;
+      letter-spacing: -.015em;
+      color: var(--text);
+    }
+
+    .pr-desc { font-size: .92rem; }
+
+    /* ─── SIGNUP ─────────────────────────────────── */
+    .signup {
+      padding: 9rem var(--g) 8rem;
+      text-align: center;
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid var(--border);
     }
-    .signup-inner::before {
+
+    .signup::before {
       content: '';
       position: absolute;
-      bottom: -100px; right: -100px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 110%, var(--lime-faint) 0%, transparent 100%);
       pointer-events: none;
     }
-    .signup-inner h2 { margin-bottom: 0.75rem; }
-    .signup-inner > p { margin-bottom: 2.5rem; max-width: 420px; margin-left: auto; margin-right: auto; }
-    .form-wrap { max-width: 440px; margin: 0 auto; }
+
+    /* giant bg text */
+    .signup-bg-text {
+      position: absolute;
+      bottom: -.1em; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(8rem, 22vw, 22rem);
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .signup-inner {
+      position: relative; z-index: 1;
+      max-width: 680px; margin: 0 auto;
+    }
+
+    .signup h2 { margin-bottom: 1.25rem; }
+    .signup .sub { font-size: 1.1rem; max-width: 440px; margin: 0 auto 3rem; }
+
+    .form-wrap { max-width: 500px; margin: 0 auto; }
+
     .form-row {
       display: flex;
-      gap: 0.5rem;
+      gap: 0;
+      border: 1px solid var(--border-hi);
     }
+
     .form-row input[type="email"] {
       flex: 1;
-      padding: 0.9rem 1rem;
-      background: var(--bg);
-      border: 1px solid var(--border-bright);
-      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      background: var(--ink-2);
+      border: none;
+      border-right: 1px solid var(--border-hi);
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: .95rem;
       font-family: var(--sans);
       outline: none;
-      transition: border-color 0.2s;
+      transition: background .2s;
     }
-    .form-row input[type="email"]:focus { border-color: var(--accent); }
-    .form-row input[type="email"]::placeholder { color: var(--text-dim); }
-    .form-note { margin-top: 1rem; font-size: 0.82rem; color: var(--text-dim); }
+    .form-row input[type="email"]:focus { background: var(--ink-3); }
+    .form-row input[type="email"]::placeholder { color: var(--text-low); }
+
+    .form-submit {
+      padding: 1rem 2rem;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: .8rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .15s;
+    }
+    .form-submit:hover { opacity: .85; }
+
+    .form-note {
+      margin-top: .9rem;
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--text-low);
+      letter-spacing: .04em;
+    }
+
     .form-success {
       display: none;
-      padding: 1.5rem;
-      border: 1px solid rgba(200, 240, 69, 0.3);
-      border-radius: 10px;
-      background: rgba(200, 240, 69, 0.04);
+      padding: 1.75rem;
+      border: 1px solid rgba(190,255,58,.28);
+      background: rgba(190,255,58,.04);
     }
-    .form-success h3 { color: var(--accent); font-size: 1.05rem; margin-bottom: 0.4rem; }
-    .form-success p { font-size: 0.95rem; }
+    .form-success h3 {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--lime);
+      margin-bottom: .4rem;
+    }
+    .form-success p { font-size: .95rem; }
     .form-success.show { display: block; }
 
-    /* ---- Footer ---- */
+    /* ─── FOOTER ─────────────────────────────────── */
     footer {
-      padding: 3rem 1.5rem;
+      padding: 2.5rem var(--g);
       border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .footer-links {
       display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 1rem;
+      align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 100%;
     }
-    .footer-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.04em;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--accent); }
-    footer p { font-size: 0.82rem; color: var(--text-dim); }
 
-    @media (max-width: 639px) {
-      section { padding: 4rem 1.25rem; }
+    .f-logo {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text-low);
+      text-decoration: none;
+    }
+
+    .f-links {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+    }
+
+    .f-links a {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-low);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .f-links a:hover { color: var(--lime); }
+
+    .f-by {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--text-low);
+      letter-spacing: .04em;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 960px) {
+      .hero-split   { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-right   { align-items: flex-start; }
+      .hero-tags    { justify-content: flex-start; }
+      .arch-inner   { grid-template-columns: 1fr; gap: 4rem; }
+      .pillar-row   { grid-template-columns: 9rem 1fr; }
+      .pillar-row .p-desc { grid-column: 2; }
+      .persona-row  { grid-template-columns: 10rem 1fr; }
+      .persona-row .pr-desc { grid-column: 2; }
+    }
+
+    @media (max-width: 680px) {
+      :root { --g: 1.25rem; }
+      .hero-mark { display: none; }
+      .m-item  { grid-template-columns: 3.5rem 1fr; gap: 1.25rem; padding: 3rem var(--g); }
+      .how-steps { grid-template-columns: 1fr; }
+      .how-step  { border-right: none; border-bottom: 1px solid var(--border); }
+      .how-step:last-child { border-bottom: none; }
+      .pillar-row   { grid-template-columns: 1fr; }
+      .pillar-row .p-desc { grid-column: 1; }
+      .persona-row  { grid-template-columns: 1fr; gap: 1rem; }
+      .persona-row .pr-desc { grid-column: 1; }
       .form-row { flex-direction: column; }
-      .form-row .btn { width: 100%; text-align: center; }
+      .form-row input[type="email"] { border-right: none; border-bottom: 1px solid var(--border-hi); }
+      .form-submit { text-align: center; }
+      footer { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <a href="/" class="nav-logo">ICON</a>
-    <a href="#signup" class="nav-cta">Get early access</a>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="hero-eyebrow">
-        <div class="pulse"></div>
-        <span>Building in public &mdash; Early access Q2&nbsp;2026</span>
-      </div>
-
-      <h1>The web has<br><em>5 billion users.</em><br>Your content<br>has 1 version.</h1>
-
-      <p class="hero-sub">
-        ICON is a new infrastructure layer for the web. AI runs at the edge. Content is composed per visitor, per request — verified by cryptography, stored permanently, optimized for outcomes.
-      </p>
-
-      <div class="hero-pillars">
-        <span class="pill">AI on the edge</span>
-        <span class="pill">Hyper-personalization</span>
-        <span class="pill">Trustless verification</span>
-        <span class="pill">Immutable content</span>
-        <span class="pill">IPFS-native</span>
-        <span class="pill">Open protocol</span>
-      </div>
-
-      <a href="#signup" class="btn">Get early access</a>
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">ICON</a>
+  <div class="nav-r">
+    <div class="nav-live">
+      <div class="live-dot"></div>
+      <span>Building in public</span>
     </div>
-  </section>
+    <a href="#signup" class="nav-btn">Early access</a>
+  </div>
+</nav>
 
-  <!-- Manifesto / Problem -->
-  <section class="manifesto">
-    <div class="wrap">
-      <div class="manifesto-lines">
-        <div class="m-line">
-          <span class="m-num">01</span>
-          <p class="m-text">Every visitor who lands on your site is different. Your website isn't. <em>That's not a content problem. It's an infrastructure problem.</em></p>
-        </div>
-        <div class="m-line">
-          <span class="m-num">02</span>
-          <p class="m-text">A/B testing is a coin flip. CMS "personalization" is widget rearrangement. Recommendation engines optimize for engagement, not truth. <em>None of this is personalization. It's theater.</em></p>
-        </div>
-        <div class="m-line">
-          <span class="m-num">03</span>
-          <p class="m-text">Meanwhile, AI can now compose coherent, relevant content in milliseconds — for fractions of a cent. The only thing missing was the infrastructure to put it where it belongs: <em>at the moment of delivery, for every single request.</em></p>
-        </div>
-        <div class="m-line">
-          <span class="m-num">04</span>
-          <p class="m-text">ICON is that infrastructure. <em>Not a plugin. Not a CMS feature. A new layer of the web.</em></p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-mark" aria-hidden="true">ICON</div>
+  <div class="hero-body">
+    <div class="hero-eyebrow eyebrow">New infrastructure for the web</div>
+    <h1>The web has <em>5 billion</em><br>users. Your content<br>has <em>1 version.</em></h1>
+    <div class="hero-split">
+      <p class="hero-sub">ICON is a new infrastructure layer. AI runs at the edge. Content is composed per visitor — cryptographically verified, IPFS-permanent, optimized for your goals. Not a plugin. Not a CMS feature.</p>
+      <div class="hero-right">
+        <a href="#signup" class="hero-cta">Get early access</a>
+        <div class="hero-tags">
+          <span class="tag">AI on the Edge</span>
+          <span class="tag">Trustless</span>
+          <span class="tag">Immutable</span>
+          <span class="tag">IPFS-native</span>
+          <span class="tag">Open protocol</span>
+          <span class="tag">Token-efficient</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Architecture / Vision -->
-  <section class="arch">
-    <div class="wrap">
-      <div class="arch-intro">
-        <h2>What changes when AI lives at the edge</h2>
-        <p>The CDN moved static files closer to users. ICON moves <em>meaning</em> closer to users. Your content is published once, stored permanently. Then, at every request, an edge agent reads context — device, referrer, behavior signals — and composes the version of your content most likely to resonate. Before the response leaves the server.</p>
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ti">AI on the Edge</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Trustless Verification</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Hyper-Personalization</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Immutable Content</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">IPFS-Native Storage</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Open Protocol</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Token-Efficient Inference</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">AI on the Edge</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Trustless Verification</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Hyper-Personalization</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Immutable Content</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">IPFS-Native Storage</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Open Protocol</span><span class="ti sep">&thinsp;·&thinsp;</span>
+    <span class="ti">Token-Efficient Inference</span><span class="ti sep">&thinsp;·&thinsp;</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="manifesto-header">
+    <span class="section-kicker">The problem</span>
+  </div>
+
+  <div class="m-item reveal">
+    <div class="m-num" aria-hidden="true">01</div>
+    <p class="m-text">Every visitor who lands on your site is different. Your website isn't. <em>That's not a content problem. It's an infrastructure problem.</em></p>
+  </div>
+
+  <div class="m-item reveal reveal-d1">
+    <div class="m-num" aria-hidden="true">02</div>
+    <p class="m-text">A/B testing is a coin flip. CMS personalization is widget rearrangement. Recommendation engines optimize for engagement, not truth. <mark>None of this is personalization.</mark> <em>It's theater.</em></p>
+  </div>
+
+  <div class="m-item reveal reveal-d2">
+    <div class="m-num" aria-hidden="true">03</div>
+    <p class="m-text">AI can now compose coherent, relevant content in milliseconds — for fractions of a cent. The only thing missing was infrastructure to put it where it belongs: <em>at the moment of delivery, for every single request.</em></p>
+  </div>
+
+  <div class="m-item reveal reveal-d3">
+    <div class="m-num" aria-hidden="true">04</div>
+    <p class="m-text">ICON is that infrastructure. <mark>Not a plugin. Not a CMS feature.</mark> <em>A new layer of the web.</em></p>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="arch">
+  <div class="arch-inner">
+    <div class="reveal">
+      <span class="section-kicker">Architecture</span>
+      <h2>What changes when AI lives at the edge</h2>
+      <p style="margin-top:1.5rem">The CDN moved static files closer to users. ICON moves <em>meaning</em> closer to users. Content is published once, stored permanently on IPFS. At every request, an edge agent reads context and composes the version of your content most likely to resonate — before the response leaves the server.</p>
+    </div>
+    <div class="arch-diagram reveal reveal-d1">
+      <span class="ad">visitor ─────────────────── edge (20ms)</span><br>
+      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</span><br>
+      <span class="am">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reads context</span><br>
+      <span class="am">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fetches CID → IPFS</span><br>
+      <span class="ah">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;composes → verifies</span><br>
+      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signs &amp; serves</span><br>
+      <span class="ad">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</span><br>
+      <span class="ah">personalized response</span><br>
+      <br>
+      <span class="ad">────────────────────────────────────</span><br>
+      <span class="am">&lt;100ms &middot; every request &middot; no central server</span>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div class="pillars-top">
+    <h2>Built different<br>at every layer</h2>
+    <span class="pillars-count">Four principles</span>
+  </div>
+
+  <div class="pillar-row reveal">
+    <div class="p-tag">AI on the Edge</div>
+    <div class="p-hl">Inference happens at delivery</div>
+    <p class="p-desc">Not a cloud API call after the page loads. Not a round-trip to a central AI server. Inference runs at the edge node closest to your visitor — so content is composed before the response leaves. This is what makes per-request personalization latency-free at any scale.</p>
+  </div>
+
+  <div class="pillar-row reveal">
+    <div class="p-tag">Hyper-Personalization</div>
+    <div class="p-hl">One piece of content. A billion variations.</div>
+    <p class="p-desc">You write your ideas once. ICON composes the version that fits each visitor's context — their intent, their background, their stage. Not two variants. Not five. A continuous composition space, constrained by your content, shaped by context.</p>
+  </div>
+
+  <div class="pillar-row reveal">
+    <div class="p-tag">Trustless Verification</div>
+    <div class="p-hl">Don't trust ICON. Trust the math.</div>
+    <p class="p-desc">Every piece of content is cryptographically signed via the PAIRL protocol at publish time. Visitors don't need to trust that what they're reading is authentic — they can verify it independently. No vendor assurances. The signature is the proof. Always.</p>
+  </div>
+
+  <div class="pillar-row reveal">
+    <div class="p-tag">Immutable by Design</div>
+    <div class="p-hl">Published means permanent</div>
+    <p class="p-desc">Content is stored on IPFS with a content address (CID). The CID is a hash of the content itself — change a word, the CID changes. What you published is what was read, forever. No silent edits. No retroactive rewrites. No drift between what you claimed and what visitors saw.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="how-inner">
+    <div class="how-hd reveal">
+      <span class="section-kicker">How it works</span>
+      <h2>Three operations.<br>Zero infrastructure.</h2>
+    </div>
+
+    <div class="how-steps reveal reveal-d1">
+      <div class="how-step">
+        <span class="hs-n" aria-hidden="true">01</span>
+        <h3>Write</h3>
+        <p>Create content in your editor, your workflow. Articles, landing pages, docs — no new format, no migration. ICON works with what you already have.</p>
       </div>
-
-      <div class="arch-diagram">
-        <span class="dim">visitor</span>  <span class="arrow">──────────────────────</span>  <span class="dim">edge node (20ms away)</span><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">reads context</span><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">fetches content CID from IPFS</span><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hi">composes → verifies → serves</span><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dim">hash signed, immutable, traceable</span><br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">▼</span><br>
-        <span class="hi">personalized response</span>  <span class="dim">&lt;100ms  ·  every request  ·  no central server</span>
+      <div class="how-step">
+        <span class="hs-n" aria-hidden="true">02</span>
+        <h3>Publish to IPFS</h3>
+        <p>One command. ICON pins your content and returns a permanent CID. Immutable, decentralized, ready for composition. No database. No server to manage.</p>
+      </div>
+      <div class="how-step">
+        <span class="hs-n" aria-hidden="true">03</span>
+        <h3>ICON composes</h3>
+        <p>Every request triggers an edge agent. Reads context, retrieves content by CID, composes the right version. Signed, served, traceable. In under 100ms.</p>
       </div>
     </div>
-  </section>
 
-  <!-- The four pillars -->
-  <section class="pillars-section">
-    <div class="wrap">
-      <h2>Built different at every layer</h2>
-
-      <div class="pillars-grid">
-
-        <div class="pillar">
-          <div class="pillar-label">AI on the Edge</div>
-          <h3>Inference happens at delivery</h3>
-          <p>Not a cloud API call after the page loads. Not a round-trip to a central AI server. The inference runs at the edge node closest to your visitor — so content is composed before the response leaves. This is what makes per-request personalization latency-free at scale.</p>
-        </div>
-
-        <div class="pillar">
-          <div class="pillar-label">Hyper-Personalization</div>
-          <h3>One piece of content. A billion variations.</h3>
-          <p>You write your ideas once. ICON composes a version of them that fits each visitor's context — their intent, their background, their stage in the funnel. Not two variants. Not five. A continuous composition space, constrained by your content, shaped by context.</p>
-        </div>
-
-        <div class="pillar">
-          <div class="pillar-label">Trustless Verification</div>
-          <h3>Don't trust ICON. Trust the math.</h3>
-          <p>Every piece of content is cryptographically signed at publish time via the PAIRL protocol. Your visitors don't need to trust that what they're reading is authentic — they can verify it independently, without asking anyone. The signature is the proof. Always.</p>
-        </div>
-
-        <div class="pillar">
-          <div class="pillar-label">Immutable by Design</div>
-          <h3>Published means permanent</h3>
-          <p>Content is stored on IPFS with a content address (CID). The CID is a hash of the content itself — change a word, the CID changes. What you published is what was read, forever. No silent edits. No retroactive rewrites. No drift between what you claimed and what visitors saw.</p>
-        </div>
-
+    <div class="terminal reveal reveal-d2">
+      <div class="t-bar">
+        <div class="t-dot"></div>
+        <div class="t-dot"></div>
+        <div class="t-dot"></div>
+        <span class="t-label">icon cli</span>
+      </div>
+      <div class="t-body">
+        <span class="td">$</span> <span class="tc">icon publish ./content/product-page.md</span><br>
+        <span class="td">&nbsp;&nbsp;→</span> <span class="to">pinning to IPFS…</span><br>
+        <span class="td">&nbsp;&nbsp;→</span> <span class="to">CID: bafybeigdyrzt5sfp7udm7hu76uh7y…</span><br>
+        <span class="td">&nbsp;&nbsp;→</span> <span class="to">PAIRL-signed &amp; registered ✓</span><br>
+        <br>
+        <span class="td">$</span> <span class="tc">icon deploy <span class="tk">--goal</span> signups <span class="tk">--edge</span> global</span><br>
+        <span class="td">&nbsp;&nbsp;→</span> <span class="to">edge agents active in 47 regions ✓</span><br>
+        <span class="td">&nbsp;&nbsp;→</span> <span class="to">token-efficient composition ✓</span><br>
+        <span class="td">&nbsp;&nbsp;→</span> <span class="to">live at icon.run/dwehrmann/product-page</span><br>
+        <br>
+        <span class="tco"># every visitor receives a composed, verified version.</span><br>
+        <span class="tco"># verified. permanent. optimized for signups.</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- How it works -->
-  <section class="how">
-    <div class="wrap">
-      <h2>How it works</h2>
-      <p style="max-width: 520px;">Three operations. Zero infrastructure to manage.</p>
+<!-- WHO -->
+<section class="who">
+  <div class="who-top reveal">
+    <span class="section-kicker">Who it's for</span>
+    <h2>For people who treat<br>their website like code</h2>
+  </div>
 
-      <div class="how-steps">
-        <div class="how-step">
-          <div class="how-step-num">01</div>
-          <div class="how-step-body">
-            <h3>Write your content</h3>
-            <p>Create articles, landing pages, docs — in your editor, in your workflow. No new format, no migration. ICON works with structured content you already have.</p>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">02</div>
-          <div class="how-step-body">
-            <h3>Publish to IPFS</h3>
-            <p>One command. ICON pins your content to IPFS and returns a permanent content address. Your content is now immutable, decentralized, and ready for composition. No database. No server.</p>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">03</div>
-          <div class="how-step-body">
-            <h3>ICON composes at the edge</h3>
-            <p>Every request triggers an edge agent. It reads context, retrieves your content by CID, and composes the version that fits this visitor. The result is signed, served, and traceable. In under 100ms.</p>
-          </div>
-        </div>
-      </div>
+  <div class="persona-row reveal">
+    <div class="pr-role">Technical founder</div>
+    <div class="pr-stmt">You're writing about what you're building.</div>
+    <p class="pr-desc">Your content should work as hard as your product. ICON makes every landing page, changelog, and docs page adapt to the person reading it — without you building a personalization system from scratch.</p>
+  </div>
 
-      <div class="terminal">
-        <div class="terminal-bar">
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <span class="terminal-title">icon cli</span>
+  <div class="persona-row reveal">
+    <div class="pr-role">Developer-marketer</div>
+    <div class="pr-stmt">You know the CMS is the wrong tool for this.</div>
+    <p class="pr-desc">ICON fits your existing Git workflow. Version content like code. Deploy with a CLI. No drag-and-drop, no plugin marketplace, no vendor migrations. Just content that performs.</p>
+  </div>
+
+  <div class="persona-row reveal">
+    <div class="pr-role">Indie maker</div>
+    <div class="pr-stmt">Every visitor is a bet you can't afford to waste.</div>
+    <p class="pr-desc">When you're building alone, you don't have time to write ten versions of every page. ICON writes none of them — it composes the right one, in real time, for every person who shows up.</p>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup" id="signup">
+  <div class="signup-bg-text" aria-hidden="true">Access</div>
+  <div class="signup-inner reveal">
+    <span class="section-kicker">Early access Q2 2026</span>
+    <h2>Join the waitlist</h2>
+    <p class="sub">Building in public. Early access starts Q2&nbsp;2026 — for the builders who want to shape what the web becomes next.</p>
+
+    <div class="form-wrap">
+      <form id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <input type="email" name="email" placeholder="you@example.com" required>
+          <button type="submit" class="form-submit">Get access</button>
         </div>
-        <div class="terminal-body">
-          <span class="t-dim">$</span> <span class="t-cmd">icon publish ./content/product-page.md</span><br>
-          <span class="t-dim">&nbsp;&nbsp;→</span> <span class="t-out">pinning to IPFS…</span><br>
-          <span class="t-dim">&nbsp;&nbsp;→</span> <span class="t-out">CID: bafybeigdyrzt5sfp7udm7hu76uh7y…</span><br>
-          <span class="t-dim">&nbsp;&nbsp;→</span> <span class="t-out">signed &amp; registered ✓</span><br>
-          <br>
-          <span class="t-dim">$</span> <span class="t-cmd">icon deploy --goal signups --edge global</span><br>
-          <span class="t-dim">&nbsp;&nbsp;→</span> <span class="t-out">edge agents active in 47 regions ✓</span><br>
-          <span class="t-dim">&nbsp;&nbsp;→</span> <span class="t-out">composition model: token-efficient ✓</span><br>
-          <span class="t-dim">&nbsp;&nbsp;→</span> <span class="t-out">live at icon.run/dwehrmann/product-page</span><br>
-          <br>
-          <span class="t-comment"># every visitor now receives a composed version.</span><br>
-          <span class="t-comment"># verified. permanent. optimized for signups.</span>
-        </div>
+      </form>
+      <p class="form-note">No spam. Updates only when there's something real to show.</p>
+
+      <div class="form-success" id="form-success">
+        <h3>You're on the list.</h3>
+        <p>We'll be in touch when early access opens.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Who it's for -->
-  <section class="who">
-    <div class="wrap">
-      <h2>For people who treat their website like code</h2>
-      <div class="personas">
-        <div class="persona">
-          <div class="persona-role">Technical founder</div>
-          <strong>You're writing about what you're building.</strong>
-          <p>Your content should work as hard as your product. ICON makes every landing page, every changelog, every docs page adapt to the person reading it — without you building a personalization system.</p>
-        </div>
-        <div class="persona">
-          <div class="persona-role">Developer-marketer</div>
-          <strong>You know the CMS is the wrong tool for this.</strong>
-          <p>ICON fits your existing Git workflow. Version your content like code. Deploy with a CLI. No drag-and-drop, no plugin marketplace, no vendor migrations. Just content that actually performs.</p>
-        </div>
-        <div class="persona">
-          <div class="persona-role">Indie maker</div>
-          <strong>Every visitor is a bet you can't afford to waste.</strong>
-          <p>When you're building alone, you don't have time to write ten versions of every page. ICON writes none of them — it composes the right one, in real time, for every person who shows up.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="f-logo">ICON</a>
+  <div class="f-links">
+    <a href="https://github.com/dwehrmann/icon-site">GitHub</a>
+    <a href="https://github.com/dwehrmann/icon-site#concept">Concept</a>
+  </div>
+  <span class="f-by">Built by @dwehrmann</span>
+</footer>
 
-  <!-- Sign-up -->
-  <section class="signup" id="signup">
-    <div class="wrap">
-      <div class="signup-inner">
-        <h2>Join the waitlist</h2>
-        <p>We're building ICON in public. Early access starts Q2&nbsp;2026 — for the builders who want to shape what comes next.</p>
-
-        <div class="form-wrap">
-          <form id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <div class="form-row">
-              <input type="email" name="email" placeholder="you@example.com" required>
-              <button type="submit" class="btn">Get access</button>
-            </div>
-          </form>
-          <p class="form-note">No spam. Updates only when there's something real to show.</p>
-
-          <div class="form-success" id="form-success">
-            <h3>You're on the list.</h3>
-            <p>We'll be in touch when early access opens.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="wrap">
-      <div class="footer-links">
-        <a href="https://github.com/dwehrmann/icon-site">GitHub</a>
-        <a href="https://github.com/dwehrmann/icon-site#concept">Concept doc</a>
-      </div>
-      <p>Built by <a href="https://github.com/dwehrmann" style="color: inherit; text-decoration: none;">@dwehrmann</a></p>
-    </div>
-  </footer>
-
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-      a.addEventListener('click', function(e) {
-        e.preventDefault();
-        var t = document.querySelector(this.getAttribute('href'));
-        if (t) t.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-
-    var form = document.getElementById('signup-form');
-    var success = document.getElementById('form-success');
-    form.addEventListener('submit', function(e) {
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
       e.preventDefault();
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      }).then(function(r) {
-        if (r.ok) {
-          form.style.display = 'none';
-          document.querySelector('.form-note').style.display = 'none';
-          success.classList.add('show');
-        }
-      }).catch(function() { form.submit(); });
+      var t = document.querySelector(this.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth' });
     });
-  </script>
+  });
+
+  // Scroll reveal
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+
+  // Form
+  var form = document.getElementById('signup-form');
+  var succ = document.getElementById('form-success');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(r) {
+      if (r.ok) {
+        form.style.display = 'none';
+        form.nextElementSibling.style.display = 'none';
+        succ.classList.add('show');
+      }
+    }).catch(function() { form.submit(); });
+  });
+</script>
 
 </body>
 </html>
